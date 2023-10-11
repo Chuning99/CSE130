@@ -1,0 +1,40 @@
+-------------------------------------------------------------------------------
+-- DO NOT MODIFY THIS SEGMENT
+-------------------------------------------------------------------------------
+
+let ZERO  = \f x -> x
+let ONE   = \f x -> f x
+let TWO   = \f x -> f (f x)
+let THREE = \f x -> f (f (f x))
+let FOUR  = \f x -> f (f (f (f x)))
+
+let INC   = \n f x -> f (n f x)
+let ADD   = \n m -> n INC m
+let MUL   = \n m -> n (ADD m) ZERO
+
+
+-------------------------------------------------------------------------------
+-- YOU SHOULD ONLY MODIFY THE TEXT BELOW, JUST THE PARTS MARKED AS COMMENTS
+-------------------------------------------------------------------------------
+eval suc_one :
+  INC ONE
+  =d> (\n f x -> f (n f x)) ONE
+  =b> (\f x -> f (ONE f x))
+  =d> (\f x -> f ((\f x -> f x) f x))
+  =b> (\f x -> f ((\x -> f x )x))
+  =b> (\f x -> f ((f x)))
+  =d> TWO
+
+eval add_zero_zero :
+  ADD ZERO ZERO
+  -- (b) fill in your reductions here
+  =d> ZERO
+
+eval add_two_two :
+  ADD TWO TWO
+  =d>(\n m ->  n INC m) TWO TWO
+  =b> (\ m -> TWO INC m) TWO
+  =b> (TWO INC TWO)
+  =d> (\f x -> f (f x) INC TWO)
+  =b> (\f x -> )
+  =d> FOUR
